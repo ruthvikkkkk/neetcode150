@@ -4,25 +4,21 @@
 
 class Solution {
     public boolean isAnagram(String s, String t) {
-        if (s.length() != t.length()) {
+        if (s.length() != t.length())
             return false;
-        }
-
+        
         int[] alphabetCounter = new int[26];
 
-        s = s.toLowerCase();
-        t = t.toLowerCase();
-
-        for (char c : s.toCharArray()) {
+        for (char c : s.toCharArray())
             alphabetCounter[c - 'a']++;
-        }
 
-        for (char c : t.toCharArray()) {
+        for (char c : t.toCharArray())
             alphabetCounter[c - 'a']--;
-            if (alphabetCounter[c - 'a'] < 0) {
+        
+        for (int i = 0; i < 26; i++)
+            if (alphabetCounter[i] != 0)
                 return false;
-            }
-        }
+
         return true;
     }
 }
