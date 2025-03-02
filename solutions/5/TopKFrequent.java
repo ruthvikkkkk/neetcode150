@@ -5,23 +5,29 @@
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {
         int[] res = new int[k];
-        int max = Integer.MIN_VALUE;
-        int min = Integer.MAX_VALUE;
+        Map<Integer, Integer> frequencyMap = new HashMap<>();
+        List<Integer>[] frequencyBuckets = new List[nums.length + 1];
 
-        for (int n : nums) {
-            if (n > max) 
-                max = n;
-            
-            if (n < min)
-                min = n;
-        }
-        int[] freq = new int[max - min + 1];
+        for (int i = 0; i < frequencyBuckets.length; i++)
+            frequencyBuckets[i] = new ArrayList<>();
 
-        for (int n : nums)
-            freq[n - min]++;
-            
+        for (int n : nums) 
+            frequencyMap.put(n, frequencyMap.getOrDefault(n, 0) + 1);
+
+        for (Map.Entry<Integer, Integer> entry : frequencyMap.entrySet())
+            frequencyBuckets[entry.getValue()].add(entry.getKey());
+
         int index = 0;
-        int[] res = new int[k];
-        
+
+        for (int j = frequencyBuckets.length -1; j > 0 && index < k; j--) {
+            for (int n : frequencyBuckets[j]) {
+                res[index++] = n;
+                if (index == k) {
+                    return res;
+                }
+            }
+        }
+
+        return res;
     }
 }
